@@ -1,4 +1,4 @@
-# Atividade Prática I
+# 💻 Atividade Prática I
 
 Relatório da Atividade Prática I (AP1) de INE5406 em 2024.2. 
 
@@ -7,9 +7,9 @@ Relatório da Atividade Prática I (AP1) de INE5406 em 2024.2.
 - Gabriel Raul Marino (Matrícula 20204843)
 - Marco Jose Pedro (Matrícula 20105254)
 
-## Descrição dos circuitos
+## 📁Descrição dos circuitos
 
-### Decodificador BCD 7-Segmentos
+### 📄 Decodificador BCD 7-Segmentos
 
 ![](https://i.ibb.co/hXVQH4S/decoder.png)
 
@@ -58,7 +58,6 @@ begin
 	end case;
 end process;
 END ARCHITECTURE;
-
 ```
 **Process Block**
 
@@ -78,7 +77,9 @@ Isso continua para os valores de BCD 0 a 9.
 A simulação“gate-level”foi realizada através do ModelSim-Altera
 utilizando arquivo de estímulos contendo todos os valores possíveis de entrada.
 
-| BCD | TIME | 
+`estimulos.do`
+
+|`BCD` | `⏳` | 
 |:-:|:-:|
 | 0000 | 10ns |
 | 0001 | 20ns |
@@ -102,18 +103,69 @@ O intervalo de 10ns foi adicionado levando em consideração o pior atraso apont
 ![](https://i.ibb.co/q788BnH/simulation.png)
 *painel Wave exibindo as entradas e saídas da arquitetura em forma de onda*
 
-**Conclusão**
+#### Conclusão
 
 Com base nos resultados da simulação apresentados, podemos concluir que o circuito projetado em VHDL e simulado no ModelSim-Altera funciona conforme o esperado. Todas as combinações possíveis de entrada BCD foram testadas e o circuito produziu as saídas corretas, de acordo com a tabela verdade do decodificador BCD para 7 segmentos.
 
-### Valor absoluto
+### 📄 Valor absoluto
+
+![](https://i.ibb.co/3m1NFqD/absolute.png)
+
+Circuito combinacional que calcula o valor absoluto da entrada, entra um valor inteiro de N bits com sinal, sai o valor correspondente sem sinal (N-1bits)
+`s = |a|`
 
 #### Circuito desenvolvido
 
+![](https://i.ibb.co/58HD0Y2/rtl-Viewer.png)
+*RTL Viewer*
+
+```vhdl
+ARCHITECTURE arch OF absolute IS
+    SIGNAL a_signed : signed(N-1 DOWNTO 0);
+    SIGNAL abs_value : unsigned(N-2 DOWNTO 0);
+BEGIN
+    a_signed <= signed(a);
+    PROCESS (a_signed)
+    BEGIN
+        IF a_signed(N-1) = '1' THEN
+            abs_value <= unsigned(not a_signed(N-2 DOWNTO 0) + 1);
+        ELSE
+            abs_value <= unsigned(a_signed(N-2 DOWNTO 0));
+        END IF;
+    END PROCESS;
+    s <= std_logic_vector(abs_value);
+END arch;
+```
+`SIGNAL a_signed : signed(N-1 DOWNTO 0);`  Para conversão da entrada de std_logic_vector para signed.
+` IF a_signed(N-1) = '1' THEN`
+           ` abs_value <= unsigned(not a_signed(N-2 DOWNTO 0) + 1);`Se o número for negativo, aplica complemento de 2.
+`abs_value <= unsigned(a_signed(N-2 DOWNTO 0));` Se for positivo, mantém o valor.
+`s <= std_logic_vector(abs_value);` Atribui o valor absoluto à saída.
+
+
 #### Simulação
 
+A simulação“gate-level”foi realizada através do ModelSim-Altera
+utilizando arquivo de estímulos contendo os valores máximo, alguns intermediários e mínimo.
 
-### Árvore de somas
+`estimulos.do`
+
+| `a` | `⏳` | 
+|:-:|:-:|
+| 0000000  | 0ns |
+|00000001 | 20ns |
+| 11111111 |40ns |
+| 10000010 |60ns |
+|01111111 |80ns |
+O intervalo de 20ns foi adicionado levando em consideração o pior atraso apontado na compilação, que foi de 11.394ns.
+
+
+![](https://i.ibb.co/jD19rpL/simulatin.png)
+*painel Wave exibindo as entradas e saídas da arquitetura em forma de onda*
+
+### 📄 Árvore de somas
+
+![](https://i.ibb.co/SQ9vKs0/adder-Tree.png)
 
 #### Circuito desenvolvido
 
