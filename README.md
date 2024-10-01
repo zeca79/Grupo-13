@@ -39,6 +39,12 @@ O decodificador BCD para 7 segmentos é um circuito eletrônico que traduz a lin
 
 #### Circuito desenvolvido
 
+![](https://i.ibb.co/xS3dg87/rtl-Viewer.png)
+*RTL Viewer*
+
+O `RTL Viewer` no Quartus é uma ferramenta que gera uma visualização gráfica da descrição em alto nível do projeto VHDL, mostrando como o código foi sintetizado em componentes de hardware. 
+RTL significa *Register Transfer Level*, e o RTL Viewer exibe a arquitetura em termos de blocos lógicos, portas, registradores e conexões entre eles.
+
 ```vhdl
 ARCHITECTURE arch OF decodificadorBCD7Seg IS
 BEGIN
