@@ -152,11 +152,11 @@ utilizando arquivo de estímulos contendo os valores máximo, alguns intermediá
 
 | `a` | `⏳` | 
 |:-:|:-:|
-| 0000000  | 0ns |
-|00000001 | 20ns |
-| 11111111 |40ns |
-| 10000010 |60ns |
-|01111111 |80ns |
+|00000000| 0ns |
+|00000001| 20ns |
+|11111111|40ns |
+|10000010|60ns |
+|01111111|80ns |
 
 O intervalo de 20ns foi adicionado levando em consideração o pior atraso apontado na compilação, que foi de 11.394ns.
 
@@ -168,11 +168,45 @@ O intervalo de 20ns foi adicionado levando em consideração o pior atraso apont
 
 ![](https://i.ibb.co/SQ9vKs0/adder-Tree.png)
 
+Circuito combinacional que calcula o soma de quatro entradas, sem overflow.
+Entram 4 valores inteiros de N bits sem sinal, sai um valor inteiro de N+2 bits sem sinal.
+
+`s = a + b + c + d`
+
 #### Circuito desenvolvido
 
+![](https://i.ibb.co/Ns8bKT9/rtl-Viewer.png)
+
+```vhdl
+ARCHITECTURE arch OF adderTree IS
+BEGIN
+    s <= std_logic_vector(resize(unsigned(a), N+2)
+	+resize(unsigned(b), N+2)
+	+resize(unsigned(c), N+2)
+	+resize(unsigned(d), N+2)
+     );
+END arch;
+```
+`s <= std_logic_vector(resize(unsigned(a), N+2)
+	+resize(unsigned(b), N+2)
+	+resize(unsigned(c), N+2)
+	+resize(unsigned(d), N+2)` Redimensionamento das entradas e soma combinacional
 #### Simulação
 
+A simulação “gate-level” foi realizada através do ModelSim-Altera
+utilizando arquivo de estímulos contendo os valores máximos, 2 intermediários e mínimos.
 
+`estimulos.do`
+
+| `a` |`b` |`c` |`c` | `⏳` | 
+|:-:|:-:|:-:|:-:|:-:|
+|00000000|00000000|00000000|00000000|0ns |
+|00000001|00000001|00000001|00000001|10ns |
+|01010101|10101010|11001100|00110011|20ns |
+|11111111|11111111|11111111|11111111|30ns |
+
+![](https://i.ibb.co/r5S3Hqj/simulation.png)
+*painel Wave exibindo as entradas e saídas da arquitetura em forma de onda*
 ## Outras observações
 
 Aqui vocês podem comentar qualquer observação que vocês gostariam de levantar sobre os circuitos descritos, dificuldades gerais, etc.
