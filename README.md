@@ -157,6 +157,7 @@ utilizando arquivo de estímulos contendo os valores máximo, alguns intermediá
 | 11111111 |40ns |
 | 10000010 |60ns |
 |01111111 |80ns |
+
 O intervalo de 20ns foi adicionado levando em consideração o pior atraso apontado na compilação, que foi de 11.394ns.
 
 
