@@ -136,16 +136,16 @@ BEGIN
     s <= std_logic_vector(abs_value);
 END arch;
 ```
-`SIGNAL a_signed : signed(N-1 DOWNTO 0);`  Para conversão da entrada de std_logic_vector para signed.
-` IF a_signed(N-1) = '1' THEN`
-           ` abs_value <= unsigned(not a_signed(N-2 DOWNTO 0) + 1);`Se o número for negativo, aplica complemento de 2.
-`abs_value <= unsigned(a_signed(N-2 DOWNTO 0));` Se for positivo, mantém o valor.
-`s <= std_logic_vector(abs_value);` Atribui o valor absoluto à saída.
+- `SIGNAL a_signed : signed(N-1 DOWNTO 0);`  Para conversão da entrada de std_logic_vector para signed.
+- ` IF a_signed(N-1) = '1' THEN`
+`abs_value <= unsigned(not a_signed(N-2 DOWNTO 0) + 1);`Se o número for negativo, aplica complemento de 2.
+- `abs_value <= unsigned(a_signed(N-2 DOWNTO 0));` Se for positivo, mantém o valor.
+- `s <= std_logic_vector(abs_value);` Atribui o valor absoluto à saída.
 
 
 #### Simulação
 
-A simulação“gate-level”foi realizada através do ModelSim-Altera
+A simulação “gate-level” foi realizada através do ModelSim-Altera
 utilizando arquivo de estímulos contendo os valores máximo, alguns intermediários e mínimo.
 
 `estimulos.do`
@@ -159,7 +159,6 @@ utilizando arquivo de estímulos contendo os valores máximo, alguns intermediá
 |01111111|80ns |
 
 O intervalo de 20ns foi adicionado levando em consideração o pior atraso apontado na compilação, que foi de 11.394ns.
-
 
 ![](https://i.ibb.co/jD19rpL/simulatin.png)
 *painel Wave exibindo as entradas e saídas da arquitetura em forma de onda*
@@ -187,10 +186,12 @@ BEGIN
      );
 END arch;
 ```
-`s <= std_logic_vector(resize(unsigned(a), N+2)
-	+resize(unsigned(b), N+2)
-	+resize(unsigned(c), N+2)
-	+resize(unsigned(d), N+2)` Redimensionamento das entradas e soma combinacional
+As entradas `a`, `b`, `c`, `d` são convertidas de `std_logic_vector` para números inteiros sem sinal (usando `unsigned`), permitindo que as operações aritméticas sejam realizadas.
+
+`Resize(..., N+2)`: Cada entrada é redimensionada de `N` bits para `N+2` bits antes de ser somada. Isso é necessário para evitar overflow, pois quando somamos vários números, o resultado pode ser maior que o tamanho original.
+
+O resultado da soma é convertido de volta para o tipo `std_logic_vector`, que é o tipo de dado da porta de saída `s`. Isso é necessário porque a saída deve ser um vetor de bits, e não um número inteiro sem sinal.
+
 #### Simulação
 
 A simulação “gate-level” foi realizada através do ModelSim-Altera
@@ -205,10 +206,12 @@ utilizando arquivo de estímulos contendo os valores máximos, 2 intermediários
 |01010101|10101010|11001100|00110011|20ns |
 |11111111|11111111|11111111|11111111|30ns |
 
+O intervalo de 20ns foi adicionado levando em consideração o pior atraso apontado na compilação, que foi de 13.411ns.
+
 ![](https://i.ibb.co/r5S3Hqj/simulation.png)
 *painel Wave exibindo as entradas e saídas da arquitetura em forma de onda*
+
 ## Outras observações
 
-Aqui vocês podem comentar qualquer observação que vocês gostariam de levantar sobre os circuitos descritos, dificuldades gerais, etc.
+A implementação dos circuitos descritos nesta atividade prática segue uma abordagem combinacional, o que significa que as operações ocorrem simultaneamente com base nos sinais de entrada, sem a necessidade de elementos de memória. Isso garante que as saídas sejam atualizadas imediatamente após qualquer alteração nas entradas. No entanto, é importante considerar que o tempo de propagação dentro dos circuitos pode influenciar o desempenho, especialmente em aplicações com grandes entradas ou operações complexas.
 
-Também podem adicionar se fizeram o desafio.
