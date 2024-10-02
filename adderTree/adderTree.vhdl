@@ -13,8 +13,8 @@ ARCHITECTURE arch OF adderTree IS
 BEGIN
     -- Redimensionamento das entradas e soma combinacional
     s <= std_logic_vector(resize(unsigned(a), N+2) 
-	                      +resize(unsigned(b), N+2)
-								 +resize(unsigned(c), N+2)
-								 +resize(unsigned(d), N+2)
+	        +resize(unsigned(b), N+2)
+		+resize(unsigned(c), N+2)
+		+resize(unsigned(d), N+2)
      );
 END arch;
