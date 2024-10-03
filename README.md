@@ -202,9 +202,9 @@ utilizando arquivo de estímulos contendo os valores máximos, 2 intermediários
 | `a` |`b` |`c` |`c` | `⏳` | 
 |:-:|:-:|:-:|:-:|:-:|
 |00000000|00000000|00000000|00000000|0ns |
-|00000001|00000001|00000001|00000001|10ns |
-|01010101|10101010|11001100|00110011|20ns |
-|11111111|11111111|11111111|11111111|30ns |
+|00000001|00000001|00000001|00000001|20ns |
+|01010101|10101010|11001100|00110011|40ns |
+|11111111|11111111|11111111|11111111|60ns |
 
 O intervalo de 20ns foi adicionado levando em consideração o pior atraso apontado na compilação, que foi de 13.411ns.
 
